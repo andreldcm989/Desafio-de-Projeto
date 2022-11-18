@@ -3,20 +3,23 @@ package com.seazonechallenge.desafio.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_imovel")
+@Table(name = "tb_imoveis")
 public class Imovel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int idImovel = 0;
+    private int idImovel;
     private int limiteHospedes;
     private int banheiros;
     private boolean petFriendly;
@@ -25,18 +28,19 @@ public class Imovel implements Serializable {
     private LocalDateTime criadoEm;
     private LocalDateTime atualizadoEm;
 
+    @OneToMany(mappedBy = "imovel")
+    private List<Anuncio> anuncios = new ArrayList<>();
+
     public Imovel() {
     }
 
-    public Imovel(int limiteHospedes, int banheiros, boolean petFriendly, double valorLimpeza, LocalDate dataAtivacao,
-            LocalDateTime criadoEm, LocalDateTime atualizadoEm) {
+    public Imovel(int limiteHospedes, int banheiros, boolean petFriendly, double valorLimpeza) {
         this.limiteHospedes = limiteHospedes;
         this.banheiros = banheiros;
         this.petFriendly = petFriendly;
         this.valorLimpeza = valorLimpeza;
-        this.dataAtivacao = dataAtivacao;
-        this.criadoEm = criadoEm;
-        this.atualizadoEm = atualizadoEm;
+        this.dataAtivacao = LocalDate.now();
+        this.criadoEm = LocalDateTime.now();
     }
 
     public int getIdImovel() {
@@ -79,24 +83,16 @@ public class Imovel implements Serializable {
         return dataAtivacao;
     }
 
-    public void setDataAtivacao(LocalDate dataAtivacao) {
-        this.dataAtivacao = dataAtivacao;
-    }
-
     public LocalDateTime getCriadoEm() {
         return criadoEm;
-    }
-
-    public void setCriadoEm(LocalDateTime criadoEm) {
-        this.criadoEm = criadoEm;
     }
 
     public LocalDateTime getAtualizadoEm() {
         return atualizadoEm;
     }
 
-    public void setAtualizadoEm(LocalDateTime atualizadoEm) {
-        this.atualizadoEm = atualizadoEm;
+    public void setAtualizadoEm() {
+        this.atualizadoEm = LocalDateTime.now();
     }
 
 }
