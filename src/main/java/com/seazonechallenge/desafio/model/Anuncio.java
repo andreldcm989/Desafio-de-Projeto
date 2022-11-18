@@ -83,8 +83,8 @@ public class Anuncio implements Serializable {
         return atualizadoEm;
     }
 
-    public void setAtualizadoEm(LocalDateTime atualizadoEm) {
-        this.atualizadoEm = atualizadoEm;
+    public void setAtualizadoEm() {
+        this.atualizadoEm = LocalDateTime.now();
     }
 
 }
