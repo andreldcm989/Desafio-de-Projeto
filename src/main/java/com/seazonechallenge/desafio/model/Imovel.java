@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class Imovel implements Serializable {
     private LocalDateTime criadoEm;
     private LocalDateTime atualizadoEm;
 
-    @OneToMany(mappedBy = "imovel")
+    @OneToMany(mappedBy = "imovel", cascade = CascadeType.REMOVE)
     private List<Anuncio> anuncios = new ArrayList<>();
 
     public Imovel() {
