@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.seazonechallenge.desafio.model.Imovel;
 import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoListar;
+import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoSalvar;
 import com.seazonechallenge.desafio.service.ImovelService;
 
 @RestController
@@ -37,7 +38,7 @@ public class ImovelController {
     }
 
     @PostMapping
-    public ResponseEntity<Imovel> salvarImovel(@RequestBody Imovel novoImovel) {
+    public ResponseEntity<ImovelDtoListar> salvarImovel(@RequestBody ImovelDtoSalvar novoImovel) {
         return ResponseEntity.ok().body(imovelService.salvarImovel(novoImovel));
     }
 

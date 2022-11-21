@@ -3,6 +3,7 @@ package com.seazonechallenge.desafio.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoSalvar;
 
 @Entity
 @Table(name = "tb_imoveis")
@@ -41,6 +44,16 @@ public class Imovel implements Serializable {
         this.petFriendly = petFriendly;
         this.valorLimpeza = valorLimpeza;
         this.dataAtivacao = LocalDate.now();
+        this.criadoEm = LocalDateTime.now();
+        this.atualizadoEm = LocalDateTime.now();
+    }
+
+    public Imovel(ImovelDtoSalvar dto) {
+        this.limiteHospedes = dto.getLimiteHospedes();
+        this.banheiros = dto.getBanheiros();
+        this.petFriendly = dto.isPetFriendly();
+        this.valorLimpeza = dto.getValorLimpeza();
+        this.dataAtivacao = LocalDate.parse(dto.getDataAtivacao(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         this.criadoEm = LocalDateTime.now();
         this.atualizadoEm = LocalDateTime.now();
     }

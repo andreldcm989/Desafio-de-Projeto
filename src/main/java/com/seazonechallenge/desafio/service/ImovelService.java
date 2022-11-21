@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.seazonechallenge.desafio.model.Imovel;
 import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoListar;
+import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoSalvar;
 import com.seazonechallenge.desafio.repository.ImovelRepository;
 
 @Service
@@ -35,10 +36,9 @@ public class ImovelService {
                 .orElseThrow(() -> new EntityNotFoundException("Nenhum imovel encontrado com o id " + idImovel + "."));
     }
 
-    public Imovel salvarImovel(Imovel novoImovel) {
-        Imovel imovel = new Imovel(novoImovel.getLimiteHospedes(), novoImovel.getBanheiros(),
-                novoImovel.isPetFriendly(), novoImovel.getValorLimpeza());
-        return imovelRepository.save(imovel);
+    public ImovelDtoListar salvarImovel(ImovelDtoSalvar novoImovel) {
+        Imovel imovel = new Imovel(novoImovel);
+        return new ImovelDtoListar(imovelRepository.save(imovel));
     }
 
     public Object editarImovel(int idImovel, Imovel imovelEdit) {
