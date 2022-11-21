@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.seazonechallenge.desafio.model.Anuncio;
 import com.seazonechallenge.desafio.model.dto.anuncios.AnuncioDtoListar;
 import com.seazonechallenge.desafio.model.dto.anuncios.AnuncioDtoSalvar;
 import com.seazonechallenge.desafio.service.AnuncioService;
@@ -40,7 +39,8 @@ public class AnuncioController {
     }
 
     @PutMapping("/{idAnuncio}")
-    public ResponseEntity<Anuncio> editarAnuncio(@PathVariable int idAnuncio, @RequestBody Anuncio anuncio) {
+    public ResponseEntity<AnuncioDtoListar> editarAnuncio(@PathVariable int idAnuncio,
+            @RequestBody AnuncioDtoSalvar anuncio) {
         return ResponseEntity.ok().body(anuncioService.editarAnuncio(idAnuncio, anuncio));
     }
 }

@@ -37,13 +37,14 @@ public class AnuncioService {
         return new AnuncioDtoListar(anuncio);
     }
 
-    public Anuncio editarAnuncio(int idAnuncio, Anuncio anuncioEdit) {
+    public AnuncioDtoListar editarAnuncio(int idAnuncio, AnuncioDtoSalvar anuncioEdit) {
         Anuncio anuncio = anuncioRepository.getReferenceById(idAnuncio);
-        anuncio.setImovel(anuncioEdit.getImovel());
+        anuncio.setImovel(imovelService.buscarImovelPorId(anuncioEdit.getIdImovel()));
         anuncio.setNomePlataforma(anuncioEdit.getNomePlataforma());
         anuncio.setTaxaPlataforma(anuncioEdit.getTaxaPlataforma());
         anuncio.setAtualizadoEm();
-        return anuncioRepository.save(anuncio);
+        anuncioRepository.save(anuncio);
+        return new AnuncioDtoListar(anuncio);
     }
 
 }
