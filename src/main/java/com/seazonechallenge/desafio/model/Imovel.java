@@ -42,6 +42,7 @@ public class Imovel implements Serializable {
         this.valorLimpeza = valorLimpeza;
         this.dataAtivacao = LocalDate.now();
         this.criadoEm = LocalDateTime.now();
+        this.atualizadoEm = LocalDateTime.now();
     }
 
     public int getIdImovel() {

@@ -32,14 +32,14 @@ public class AnuncioService {
     }
 
     public AnuncioDtoListar salvarAnuncio(AnuncioDtoSalvar dto) {
-        Anuncio anuncio = new Anuncio(imovelService.buscarImovelPorId(dto.getIdImovel()), dto);
+        Anuncio anuncio = new Anuncio(imovelService.findById(dto.getIdImovel()), dto);
         anuncioRepository.save(anuncio);
         return new AnuncioDtoListar(anuncio);
     }
 
     public AnuncioDtoListar editarAnuncio(int idAnuncio, AnuncioDtoSalvar anuncioEdit) {
         Anuncio anuncio = anuncioRepository.getReferenceById(idAnuncio);
-        anuncio.setImovel(imovelService.buscarImovelPorId(anuncioEdit.getIdImovel()));
+        anuncio.setImovel(imovelService.findById(anuncioEdit.getIdImovel()));
         anuncio.setNomePlataforma(anuncioEdit.getNomePlataforma());
         anuncio.setTaxaPlataforma(anuncioEdit.getTaxaPlataforma());
         anuncio.setAtualizadoEm();

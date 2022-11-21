@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.seazonechallenge.desafio.model.Imovel;
+import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoListar;
 import com.seazonechallenge.desafio.service.ImovelService;
 
 @RestController
@@ -26,12 +27,12 @@ public class ImovelController {
     private ImovelService imovelService;
 
     @GetMapping
-    public ResponseEntity<List<Imovel>> listarImoveis() {
+    public ResponseEntity<List<ImovelDtoListar>> listarImoveis() {
         return ResponseEntity.status(HttpStatus.OK).body(imovelService.listarImoveis());
     }
 
     @GetMapping("/{idImovel}")
-    public ResponseEntity<Imovel> buscarImovelPorId(@PathVariable int idImovel) {
+    public ResponseEntity<ImovelDtoListar> buscarImovelPorId(@PathVariable int idImovel) {
         return ResponseEntity.ok().body(imovelService.buscarImovelPorId(idImovel));
     }
 

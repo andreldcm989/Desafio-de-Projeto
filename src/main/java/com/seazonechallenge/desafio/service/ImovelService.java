@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.seazonechallenge.desafio.model.Imovel;
+import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoListar;
 import com.seazonechallenge.desafio.repository.ImovelRepository;
 
 @Service
@@ -19,11 +20,17 @@ public class ImovelService {
     @Autowired
     private ImovelRepository imovelRepository;
 
-    public List<Imovel> listarImoveis() {
-        return imovelRepository.findAll();
+    public List<ImovelDtoListar> listarImoveis() {
+        return imovelRepository.findAll().stream().map(ImovelDtoListar::new).toList();
     }
 
-    public Imovel buscarImovelPorId(int idImovel) {
+    public ImovelDtoListar buscarImovelPorId(int idImovel) {
+        Imovel imovel = imovelRepository.findById(idImovel)
+                .orElseThrow(() -> new EntityNotFoundException("Nenhum imovel encontrado com o id " + idImovel + "."));
+        return new ImovelDtoListar(imovel);
+    }
+
+    public Imovel findById(int idImovel) {
         return imovelRepository.findById(idImovel)
                 .orElseThrow(() -> new EntityNotFoundException("Nenhum imovel encontrado com o id " + idImovel + "."));
     }
