@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.seazonechallenge.desafio.model.Anuncio;
 import com.seazonechallenge.desafio.model.dto.anuncios.AnuncioDtoListar;
+import com.seazonechallenge.desafio.model.dto.anuncios.AnuncioDtoSalvar;
 import com.seazonechallenge.desafio.service.AnuncioService;
 
 @RestController
@@ -34,7 +35,7 @@ public class AnuncioController {
     }
 
     @PostMapping
-    public ResponseEntity<Anuncio> salvarAnuncio(@RequestBody Anuncio anuncio) {
+    public ResponseEntity<AnuncioDtoListar> salvarAnuncio(@RequestBody AnuncioDtoSalvar anuncio) {
         return ResponseEntity.ok().body(anuncioService.salvarAnuncio(anuncio));
     }
 

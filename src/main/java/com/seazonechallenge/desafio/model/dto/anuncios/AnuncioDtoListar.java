@@ -1,7 +1,6 @@
 package com.seazonechallenge.desafio.model.dto.anuncios;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.seazonechallenge.desafio.model.Anuncio;

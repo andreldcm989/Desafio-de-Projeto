@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.seazonechallenge.desafio.model.Anuncio;
 import com.seazonechallenge.desafio.model.dto.anuncios.AnuncioDtoListar;
+import com.seazonechallenge.desafio.model.dto.anuncios.AnuncioDtoSalvar;
 import com.seazonechallenge.desafio.repository.AnuncioRepository;
 
 @Service
@@ -16,6 +17,9 @@ public class AnuncioService {
 
     @Autowired
     private AnuncioRepository anuncioRepository;
+
+    @Autowired
+    private ImovelService imovelService;
 
     public List<AnuncioDtoListar> listarAnuncios() {
         return anuncioRepository.findAll().stream().map(AnuncioDtoListar::new).toList();
@@ -27,8 +31,10 @@ public class AnuncioService {
         return new AnuncioDtoListar(anuncio);
     }
 
-    public Anuncio salvarAnuncio(Anuncio anuncio) {
-        return anuncioRepository.save(anuncio);
+    public AnuncioDtoListar salvarAnuncio(AnuncioDtoSalvar dto) {
+        Anuncio anuncio = new Anuncio(imovelService.buscarImovelPorId(dto.getIdImovel()), dto);
+        anuncioRepository.save(anuncio);
+        return new AnuncioDtoListar(anuncio);
     }
 
     public Anuncio editarAnuncio(int idAnuncio, Anuncio anuncioEdit) {

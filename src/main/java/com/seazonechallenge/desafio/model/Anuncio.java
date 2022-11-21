@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.seazonechallenge.desafio.model.dto.anuncios.AnuncioDtoSalvar;
 
 @Entity
 @Table(name = "tb_anuncios")
@@ -44,6 +45,14 @@ public class Anuncio implements Serializable {
         this.imovel = imovel;
         this.nomePlataforma = nomePlataforma;
         this.taxaPlataforma = taxaPlataforma;
+        this.criadoEm = LocalDateTime.now();
+        this.atualizadoEm = LocalDateTime.now();
+    }
+
+    public Anuncio(Imovel imovel, AnuncioDtoSalvar anuncioDtoSalvar) {
+        this.imovel = imovel;
+        this.nomePlataforma = anuncioDtoSalvar.getNomePlataforma();
+        this.taxaPlataforma = anuncioDtoSalvar.getTaxaPlataforma();
         this.criadoEm = LocalDateTime.now();
         this.atualizadoEm = LocalDateTime.now();
     }
