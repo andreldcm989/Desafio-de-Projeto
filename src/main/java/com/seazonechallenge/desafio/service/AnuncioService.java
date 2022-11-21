@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.seazonechallenge.desafio.model.Anuncio;
+import com.seazonechallenge.desafio.model.dto.anuncios.AnuncioDtoListar;
 import com.seazonechallenge.desafio.repository.AnuncioRepository;
 
 @Service
@@ -16,13 +17,14 @@ public class AnuncioService {
     @Autowired
     private AnuncioRepository anuncioRepository;
 
-    public List<Anuncio> listarAnuncios() {
-        return anuncioRepository.findAll();
+    public List<AnuncioDtoListar> listarAnuncios() {
+        return anuncioRepository.findAll().stream().map(AnuncioDtoListar::new).toList();
     }
 
-    public Anuncio buscarAnuncioPorId(int idAnuncio) {
-        return anuncioRepository.findById(idAnuncio)
+    public AnuncioDtoListar buscarAnuncioPorId(int idAnuncio) {
+        Anuncio anuncio = anuncioRepository.findById(idAnuncio)
                 .orElseThrow(() -> new EntityNotFoundException("Nenhum Anuncio encontrado com este ID."));
+        return new AnuncioDtoListar(anuncio);
     }
 
     public Anuncio salvarAnuncio(Anuncio anuncio) {

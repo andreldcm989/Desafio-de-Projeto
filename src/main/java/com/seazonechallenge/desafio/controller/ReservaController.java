@@ -60,7 +60,7 @@ public class ReservaController {
         if (retorno.contains("Reserva excluida")) {
             return ResponseEntity.status(HttpStatus.OK).body(retorno);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(retorno);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(retorno);
         }
     }
 }

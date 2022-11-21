@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.seazonechallenge.desafio.model.Anuncio;
+import com.seazonechallenge.desafio.model.dto.anuncios.AnuncioDtoListar;
 import com.seazonechallenge.desafio.service.AnuncioService;
 
 @RestController
@@ -23,12 +24,12 @@ public class AnuncioController {
     private AnuncioService anuncioService;
 
     @GetMapping
-    public ResponseEntity<List<Anuncio>> listarAnuncios() {
+    public ResponseEntity<List<AnuncioDtoListar>> listarAnuncios() {
         return ResponseEntity.ok().body(anuncioService.listarAnuncios());
     }
 
     @GetMapping("/{idAnuncio}")
-    public ResponseEntity<Anuncio> buscarAnuncioPorId(@PathVariable int idAnuncio) {
+    public ResponseEntity<AnuncioDtoListar> buscarAnuncioPorId(@PathVariable int idAnuncio) {
         return ResponseEntity.ok().body(anuncioService.buscarAnuncioPorId(idAnuncio));
     }
 

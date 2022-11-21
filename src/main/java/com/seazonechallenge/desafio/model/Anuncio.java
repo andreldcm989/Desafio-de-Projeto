@@ -45,6 +45,7 @@ public class Anuncio implements Serializable {
         this.nomePlataforma = nomePlataforma;
         this.taxaPlataforma = taxaPlataforma;
         this.criadoEm = LocalDateTime.now();
+        this.atualizadoEm = LocalDateTime.now();
     }
 
     public int getCodigo() {
