@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -41,15 +42,13 @@ public class ImovelService {
         return new ImovelDtoListar(imovelRepository.save(imovel));
     }
 
-    public Object editarImovel(int idImovel, Imovel imovelEdit) {
+    public Object editarImovel(int idImovel, ImovelDtoSalvar imovelEdit) {
         try {
             Imovel imovel = imovelRepository.getReferenceById(idImovel);
             imovel.setLimiteHospedes(imovelEdit.getLimiteHospedes());
-            imovel.setBanheiros(imovelEdit.getBanheiros());
-            imovel.setPetFriendly(imovelEdit.isPetFriendly());
-            imovel.setValorLimpeza(imovelEdit.getValorLimpeza());
+            BeanUtils.copyProperties(imovelEdit, imovel);
             imovel.setAtualizadoEm();
-            return imovelRepository.save(imovel);
+            return new ImovelDtoListar(imovelRepository.save(imovel));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound();
         }

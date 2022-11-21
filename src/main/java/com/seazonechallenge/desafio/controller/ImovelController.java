@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.seazonechallenge.desafio.model.Imovel;
 import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoListar;
 import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoSalvar;
 import com.seazonechallenge.desafio.service.ImovelService;
@@ -42,8 +40,8 @@ public class ImovelController {
         return ResponseEntity.ok().body(imovelService.salvarImovel(novoImovel));
     }
 
-    @PutMapping
-    public ResponseEntity<Object> editarImovel(@RequestParam int idImovel, @RequestBody Imovel imovel) {
+    @PutMapping("/{idImovel}")
+    public ResponseEntity<Object> editarImovel(@PathVariable int idImovel, @RequestBody ImovelDtoSalvar imovel) {
         return ResponseEntity.ok().body(imovelService.editarImovel(idImovel, imovel));
     }
 
@@ -51,5 +49,4 @@ public class ImovelController {
     public ResponseEntity<HttpStatus> excluirImovelPorId(@PathVariable int idImovel) {
         return imovelService.excluirImovel(idImovel);
     }
-
 }

@@ -3,7 +3,6 @@ package com.seazonechallenge.desafio.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class Imovel implements Serializable {
         this.banheiros = dto.getBanheiros();
         this.petFriendly = dto.isPetFriendly();
         this.valorLimpeza = dto.getValorLimpeza();
-        this.dataAtivacao = LocalDate.parse(dto.getDataAtivacao(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.dataAtivacao = LocalDate.now();
         this.criadoEm = LocalDateTime.now();
         this.atualizadoEm = LocalDateTime.now();
     }
