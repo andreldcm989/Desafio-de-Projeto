@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.seazonechallenge.desafio.model.Reserva;
+import com.seazonechallenge.desafio.model.dto.reservas.ReservaDtoListar;
 import com.seazonechallenge.desafio.service.ReservaService;
 
 @RestController
@@ -25,12 +26,12 @@ public class ReservaController {
     private ReservaService reservaService;
 
     @GetMapping
-    public ResponseEntity<List<Reserva>> listarReservas() {
+    public ResponseEntity<List<ReservaDtoListar>> listarReservas() {
         return ResponseEntity.status(HttpStatus.OK).body(reservaService.listarReservas());
     }
 
     @GetMapping("/{idReserva}")
-    public ResponseEntity<Reserva> buscarReservaPorId(@PathVariable int idReserva) {
+    public ResponseEntity<ReservaDtoListar> buscarReservaPorId(@PathVariable int idReserva) {
         return ResponseEntity.status(HttpStatus.OK).body(reservaService.buscarReservaPorId(idReserva));
     }
 

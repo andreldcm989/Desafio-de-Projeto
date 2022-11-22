@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.seazonechallenge.desafio.model.Reserva;
+import com.seazonechallenge.desafio.model.dto.reservas.ReservaDtoListar;
 import com.seazonechallenge.desafio.repository.ReservaRepository;
 
 @Service
@@ -16,13 +17,13 @@ public class ReservaService {
     @Autowired
     private ReservaRepository reservaRepository;
 
-    public List<Reserva> listarReservas() {
-        return reservaRepository.findAll();
+    public List<ReservaDtoListar> listarReservas() {
+        return reservaRepository.findAll().stream().map(ReservaDtoListar::new).toList();
     }
 
-    public Reserva buscarReservaPorId(int idReserva) {
-        return reservaRepository.findById(idReserva)
-                .orElseThrow(() -> new EntityNotFoundException("Reserva não encontrada."));
+    public ReservaDtoListar buscarReservaPorId(int idReserva) {
+        return new ReservaDtoListar(reservaRepository.findById(idReserva)
+                .orElseThrow(() -> new EntityNotFoundException("Reserva não encontrada.")));
     }
 
     public Reserva salvarReserva(Reserva reserva) {
