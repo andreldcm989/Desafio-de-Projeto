@@ -1,5 +1,7 @@
 package com.seazonechallenge.desafio.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.seazonechallenge.desafio.model.Reserva;
 import com.seazonechallenge.desafio.model.dto.reservas.ReservaDtoListar;
+import com.seazonechallenge.desafio.model.dto.reservas.ReservaDtoSalvar;
 import com.seazonechallenge.desafio.service.ReservaService;
 
 @RestController
@@ -36,8 +38,10 @@ public class ReservaController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> salvarReserva(@RequestBody Reserva reserva) {
-        if (reserva.getCheckOut().isAfter(reserva.getCheckIn())) {
+    public ResponseEntity<Object> salvarReserva(@RequestBody ReservaDtoSalvar reserva) {
+        LocalDate checkIn = LocalDate.parse(reserva.getCheckIn(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate checkOut = LocalDate.parse(reserva.getCheckOut(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        if (checkOut.isAfter(checkIn)) {
             return ResponseEntity.status(HttpStatus.CREATED).body(reservaService.salvarReserva(reserva));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -46,8 +50,10 @@ public class ReservaController {
     }
 
     @PutMapping("/{idReserva}")
-    public ResponseEntity<Object> editarReserva(@PathVariable int idReserva, @RequestBody Reserva reserva) {
-        if (reserva.getCheckIn().isBefore(reserva.getCheckOut())) {
+    public ResponseEntity<Object> editarReserva(@PathVariable int idReserva, @RequestBody ReservaDtoSalvar reserva) {
+        LocalDate checkIn = LocalDate.parse(reserva.getCheckIn(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate checkOut = LocalDate.parse(reserva.getCheckOut(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        if (checkOut.isAfter(checkIn)) {
             return ResponseEntity.status(HttpStatus.OK).body(reservaService.editarReserva(idReserva, reserva));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

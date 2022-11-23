@@ -47,4 +47,9 @@ public class AnuncioService {
         return new AnuncioDtoListar(anuncio);
     }
 
+    public Anuncio findById(int id) {
+        return anuncioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Nenhum Anuncio encontrado com este ID."));
+    }
+
 }

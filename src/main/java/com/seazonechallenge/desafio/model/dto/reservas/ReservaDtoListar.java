@@ -12,6 +12,10 @@ public class ReservaDtoListar implements Serializable {
     private String checkIn;
     private String checkOut;
     private double valorTotal;
+    private String comentarios;
+    private int hospedes;
+    private String criadoEm;
+    private String atualizadoEm;
 
     public ReservaDtoListar() {
     }
@@ -22,6 +26,10 @@ public class ReservaDtoListar implements Serializable {
         this.checkIn = reserva.getCheckIn().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         this.checkOut = reserva.getCheckOut().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         this.valorTotal = reserva.getValorTotal();
+        this.comentarios = reserva.getComentarios();
+        this.hospedes = reserva.getHospedes();
+        this.criadoEm = reserva.getCriadoEm().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        this.atualizadoEm = reserva.getAtualizadoEm().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
     }
 
     public int getCodigo() {
@@ -42,6 +50,22 @@ public class ReservaDtoListar implements Serializable {
 
     public double getValorTotal() {
         return valorTotal;
+    }
+
+    public String getComentarios() {
+        return comentarios;
+    }
+
+    public int getHospedes() {
+        return hospedes;
+    }
+
+    public String getCriadoEm() {
+        return criadoEm;
+    }
+
+    public String getAtualizadoEm() {
+        return atualizadoEm;
     }
 
 }

@@ -1,5 +1,7 @@
 package com.seazonechallenge.desafio.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.seazonechallenge.desafio.model.Reserva;
 import com.seazonechallenge.desafio.model.dto.reservas.ReservaDtoListar;
+import com.seazonechallenge.desafio.model.dto.reservas.ReservaDtoSalvar;
 import com.seazonechallenge.desafio.repository.ReservaRepository;
 
 @Service
@@ -16,6 +19,9 @@ public class ReservaService {
 
     @Autowired
     private ReservaRepository reservaRepository;
+
+    @Autowired
+    private AnuncioService anuncioService;
 
     public List<ReservaDtoListar> listarReservas() {
         return reservaRepository.findAll().stream().map(ReservaDtoListar::new).toList();
@@ -26,20 +32,21 @@ public class ReservaService {
                 .orElseThrow(() -> new EntityNotFoundException("Reserva não encontrada.")));
     }
 
-    public Reserva salvarReserva(Reserva reserva) {
-        return reservaRepository.save(reserva);
+    public ReservaDtoListar salvarReserva(ReservaDtoSalvar dto) {
+        Reserva reserva = new Reserva(anuncioService.findById(dto.getIdAnuncio()), dto);
+        return new ReservaDtoListar(reservaRepository.save(reserva));
     }
 
-    public Reserva editarReserva(int idReserva, Reserva reservaEdit) {
+    public ReservaDtoListar editarReserva(int idReserva, ReservaDtoSalvar reservaEdit) {
         Reserva reserva = reservaRepository.getReferenceById(idReserva);
-        reserva.setAnuncio(reservaEdit.getAnuncio());
+        reserva.setAnuncio(anuncioService.findById(reservaEdit.getIdAnuncio()));
         reserva.setHospedes(reservaEdit.getHospedes());
-        reserva.setCheckIn(reservaEdit.getCheckIn());
-        reserva.setCheckOut(reservaEdit.getCheckOut());
+        reserva.setCheckIn(LocalDate.parse(reservaEdit.getCheckIn(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        reserva.setCheckOut(LocalDate.parse(reservaEdit.getCheckOut(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         reserva.setComentarios(reservaEdit.getComentarios());
         reserva.setValorTotal(reservaEdit.getValorTotal());
         reserva.setAtualizadoEm();
-        return reservaRepository.save(reserva);
+        return new ReservaDtoListar(reservaRepository.save(reserva));
     }
 
     public Object excluirReserva(int idReserva) {

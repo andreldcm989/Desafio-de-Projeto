@@ -3,6 +3,7 @@ package com.seazonechallenge.desafio.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.seazonechallenge.desafio.model.dto.reservas.ReservaDtoSalvar;
 
 @Entity
 @Table(name = "tb_reservas")
@@ -46,6 +49,18 @@ public class Reserva implements Serializable {
         this.comentarios = comentarios;
         this.hospedes = hospedes;
         this.criadoEm = LocalDateTime.now();
+        this.atualizadoEm = LocalDateTime.now();
+    }
+
+    public Reserva(Anuncio anuncio, ReservaDtoSalvar dto) {
+        this.anuncio = anuncio;
+        this.checkIn = LocalDate.parse(dto.getCheckIn(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.checkOut = LocalDate.parse(dto.getCheckOut(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.valorTotal = dto.getValorTotal();
+        this.comentarios = dto.getComentarios();
+        this.hospedes = dto.getHospedes();
+        this.criadoEm = LocalDateTime.now();
+        this.atualizadoEm = LocalDateTime.now();
     }
 
     public int getCodigo() {
