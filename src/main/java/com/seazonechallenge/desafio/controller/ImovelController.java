@@ -51,7 +51,8 @@ public class ImovelController {
     }
 
     @DeleteMapping("/{idImovel}")
-    public ResponseEntity<HttpStatus> excluirImovelPorId(@PathVariable int idImovel) {
-        return imovelService.excluirImovel(idImovel);
+    public ResponseEntity<Object> excluirImovelPorId(@PathVariable int idImovel) {
+        imovelService.excluirImovel(idImovel);
+        return ResponseEntity.ok().body("Imovel excluído com sucesso!");
     }
 }

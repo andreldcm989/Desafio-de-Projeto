@@ -7,14 +7,13 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.seazonechallenge.desafio.model.Imovel;
 import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoListar;
 import com.seazonechallenge.desafio.model.dto.imoveis.ImovelDtoSalvar;
 import com.seazonechallenge.desafio.repository.ImovelRepository;
+import com.seazonechallenge.desafio.service.exceptions.ResourceNotFoundException;
 
 @Service
 public class ImovelService {
@@ -28,13 +27,13 @@ public class ImovelService {
 
     public ImovelDtoListar buscarImovelPorId(int idImovel) {
         Imovel imovel = imovelRepository.findById(idImovel)
-                .orElseThrow(() -> new EntityNotFoundException("Nenhum imovel encontrado com o id " + idImovel + "."));
+                .orElseThrow(() -> new ResourceNotFoundException(idImovel));
         return new ImovelDtoListar(imovel);
     }
 
     public Imovel findById(int idImovel) {
         return imovelRepository.findById(idImovel)
-                .orElseThrow(() -> new EntityNotFoundException("Nenhum imovel encontrado com o id " + idImovel + "."));
+                .orElseThrow(() -> new ResourceNotFoundException(idImovel));
     }
 
     public ImovelDtoListar salvarImovel(ImovelDtoSalvar novoImovel) {
@@ -42,7 +41,7 @@ public class ImovelService {
         return new ImovelDtoListar(imovelRepository.save(imovel));
     }
 
-    public Object editarImovel(int idImovel, ImovelDtoSalvar imovelEdit) {
+    public ImovelDtoListar editarImovel(int idImovel, ImovelDtoSalvar imovelEdit) {
         try {
             Imovel imovel = imovelRepository.getReferenceById(idImovel);
             imovel.setLimiteHospedes(imovelEdit.getLimiteHospedes());
@@ -50,16 +49,15 @@ public class ImovelService {
             imovel.setAtualizadoEm();
             return new ImovelDtoListar(imovelRepository.save(imovel));
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound();
+            throw new ResourceNotFoundException(idImovel);
         }
     }
 
-    public ResponseEntity<HttpStatus> excluirImovel(int idImovel) {
+    public void excluirImovel(int idImovel) {
         try {
             imovelRepository.deleteById(idImovel);
-            return ResponseEntity.ok().body(HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
-            return ResponseEntity.notFound().build();
+            throw new ResourceNotFoundException(idImovel);
         }
     }
 }
